@@ -24,7 +24,8 @@ app.use("/api/v1/notification", notificationRouter);
 app.use("/api/v1/battle", battleRouter);
 
 app.get("/", (req, res) => {
-  res.send("server is running");
+  // res.send("server is running");
+  res.redirect("/login");
 });
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
