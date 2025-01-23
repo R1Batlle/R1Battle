@@ -352,6 +352,7 @@ exports.adminDashboard = async (req, res) => {
       totalBonus,
       totalPenalty,
       totalWithdrawRequest,
+      totalReferralAmountUser,
     ] = await Promise.all([
       getCount(User, { role: "user", isVerified: true, ...dateFilter }),
       getCount(User, {
@@ -472,6 +473,16 @@ exports.adminDashboard = async (req, res) => {
         isBattleTransaction: false,
         ...dateFilter,
       }),
+      getAggregateTotal(
+        Transaction,
+        {
+          type: "referral",
+          isReferral: true,
+          status: "approved",
+          ...dateFilter,
+        },
+        "amount"
+      ),
     ]);
 
     const userBalances = await User.find(
@@ -482,7 +493,11 @@ exports.adminDashboard = async (req, res) => {
       (total, user) => total + user.balance.totalBalance + user.balance.cashWon,
       0
     );
-    const pendingReferralAmount = userBalances.reduce(
+    const userBalancesForReferral = await User.find(
+      { role: "user", isActive: true },
+      { balance: 1 }
+    );
+    const pendingReferralAmount = userBalancesForReferral.reduce(
       (total, user) => total + user.balance.referralEarning,
       0
     );
@@ -524,6 +539,7 @@ exports.adminDashboard = async (req, res) => {
       holdBalance,
       totalPenalty,
       totalWithdrawRequest,
+      totalReferralAmountUser,
     };
 
     return successHandler({
