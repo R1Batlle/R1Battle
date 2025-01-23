@@ -408,12 +408,21 @@ exports.acceptOrRejectRequestByCreater = async (req, res) => {
         if (!battleDetails?.isBattleRequestAccepted) {
           payload.isBattleRequestAccepted = true;
           messageCode = "M038";
-          payload.status = "PLAYING";
-          await updateTransactionForStartingGame(
-            _id,
-            battleDetails.entryFee,
-            battleDetails._id
-          );
+          const checkTransaction = await Transaction.findOne({
+            battleId: battleDetails._id,
+            entryFee: battleDetails.entryFee,
+            type: "withdraw",
+            status: "approved",
+            isBattleTransaction: true,
+            userId: _id,
+          });
+          if (!checkTransaction) {
+            await updateTransactionForStartingGame(
+              _id,
+              battleDetails.entryFee,
+              battleDetails._id
+            );
+          }
 
           const battlesToDelete = await Battle.find({
             _id: { $ne: new mongoose.Types.ObjectId(battleId) },
