@@ -408,7 +408,7 @@ exports.acceptOrRejectRequestByCreater = async (req, res) => {
         if (!battleDetails?.isBattleRequestAccepted) {
           payload.isBattleRequestAccepted = true;
           messageCode = "M038";
-
+          payload.status = "PLAYING";
           await updateTransactionForStartingGame(
             _id,
             battleDetails.entryFee,
