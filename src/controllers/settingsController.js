@@ -353,9 +353,19 @@ exports.adminDashboard = async (req, res) => {
       totalPenalty,
       totalWithdrawRequest,
     ] = await Promise.all([
-      getCount(User, { role: "user", ...dateFilter }),
-      getCount(User, { role: "user", isActive: true, ...dateFilter }),
-      getCount(User, { role: "user", isActive: false, ...dateFilter }),
+      getCount(User, { role: "user", isVerified: true, ...dateFilter }),
+      getCount(User, {
+        role: "user",
+        isVerified: true,
+        isActive: true,
+        ...dateFilter,
+      }),
+      getCount(User, {
+        role: "user",
+        isVerified: true,
+        isActive: false,
+        ...dateFilter,
+      }),
       getCount(User, { role: "admin", ...dateFilter }),
       getCount(User, { role: "admin", isActive: true, ...dateFilter }),
       getCount(User, { role: "admin", isActive: false, ...dateFilter }),
