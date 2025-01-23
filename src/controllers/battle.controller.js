@@ -42,6 +42,19 @@ exports.createBattle = async (req, res) => {
         message: getMessage("M015"),
       });
     }
+    const battleCreatedddd = await Battle.findOne({
+      createdBy: _id,
+      status: "OPEN",
+      roomNo: { $exists: true },
+    });
+
+    if (battleCreatedddd) {
+      return errorHandler({
+        res,
+        statusCode: 400,
+        message: getMessage("M036"),
+      });
+    }
 
     const checkPlayingBattle = await Battle.findOne({
       $or: [{ createdBy: _id }, { acceptedBy: _id }],

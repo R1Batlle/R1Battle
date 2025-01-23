@@ -672,7 +672,7 @@ exports.getAllUsersList = async (req, res) => {
       });
     }
     const users = await User.find(
-      { role: "user" },
+      { role: "user", isVerified: true },
       { _id: 1, name: 1, mobileNo: 1, createdAt: 1, isActive: 1 }
     );
     return successHandler({
