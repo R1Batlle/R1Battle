@@ -485,14 +485,17 @@ exports.adminDashboard = async (req, res) => {
       { role: "user", isActive: true, ...dateFilter },
       { balance: 1 }
     );
-    const totalWalletBalance = userBalances.reduce(
-      (total, user) => total + user.balance.totalBalance + user.balance.cashWon,
-      0
-    );
+
     const userBalancesForReferral = await User.find(
       { role: "user", isActive: true },
       { balance: 1 }
     );
+
+    const totalWalletBalance = userBalancesForReferral.reduce(
+      (total, user) => total + user.balance.totalWalletBalance,
+      0
+    );
+
     const pendingReferralAmount = userBalancesForReferral.reduce(
       (total, user) => total + user.balance.referralEarning,
       0
