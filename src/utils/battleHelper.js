@@ -72,8 +72,8 @@ const updateWinningAmountForWinner = async (data) => {
         acceptedUser.balance.totalWalletBalance += data.entryFee;
       }
 
-      await createdUser.save();
-      await acceptedUser.save();
+      await createdUser?.save();
+      await acceptedUser?.save();
     } else {
       if (!data.winner) return;
       const userDetails = await User.findOne({ _id: data.winner });
