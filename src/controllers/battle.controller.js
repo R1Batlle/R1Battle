@@ -970,9 +970,10 @@ exports.updateBattleResultByUser = async (req, res) => {
     }
     // if (battleDetails?.status !== "PLAYING") {
     if (
-      battleDetails?.status !== "PLAYING" ||
+      battleDetails?.status !== "PLAYING" &&
       battleDetails?.status !== "OPEN"
     ) {
+     
       return errorHandler({
         res,
         statusCode: 400,
