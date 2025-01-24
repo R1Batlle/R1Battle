@@ -968,7 +968,11 @@ exports.updateBattleResultByUser = async (req, res) => {
         message: getMessage("M041"),
       });
     }
-    if (battleDetails?.status !== "PLAYING") {
+    // if (battleDetails?.status !== "PLAYING") {
+    if (
+      battleDetails?.status !== "PLAYING" ||
+      battleDetails?.status !== "OPEN"
+    ) {
       return errorHandler({
         res,
         statusCode: 400,
