@@ -302,20 +302,6 @@ exports.adminDashboard = async (req, res) => {
     }
     const { fromDate, toDate } = req.query;
 
-    console.log("dayjs(fromDate).startOf(day).toDate(),", new Date(fromDate));
-    console.log(new Date());
-    console.log(
-      "new Date(new Date(fromDate).setHours(0, 0, 0, 0))",
-      new Date(new Date(fromDate).setHours(0, 0, 0, 0))
-    );
-    console.log(
-      "new Date(new Date(toDate).setHours(23, 59, 59, 999))",
-      new Date(new Date(toDate).setHours(23, 59, 59, 999))
-    );
-    console.log(
-      await Battle.find({}, { createdAt: 1 }).sort({ createdAt: -1 }).limit(1)
-    );
-
     const dateFilter =
       fromDate && toDate
         ? {
