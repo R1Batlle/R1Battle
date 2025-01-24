@@ -305,13 +305,26 @@ exports.adminDashboard = async (req, res) => {
     const dayjs = require("dayjs");
     const utc = require("dayjs/plugin/utc");
     dayjs.extend(utc);
+    
+    console.log(
+      "dayjs(fromDate).startOf(day).toDate(),",
+      dayjs(fromDate).startOf("day").toDate()
+    );
+    console.log(
+      "dayjs(fromDate).startOf(day).utc.toDate(),",
+      dayjs(fromDate).startOf("day").utc().toDate()
+    );
+
+    console.log(await Battle.findOne({}, { createdAt: 1 }));
 
     const dateFilter =
       fromDate && toDate
         ? {
             createdAt: {
-              $gte: dayjs(fromDate).startOf("day").utc().toDate(),
-              $lte: dayjs(toDate).endOf("day").utc().toDate(),
+              $gte: dayjs(fromDate).startOf("day").toDate(),
+              $lte: dayjs(toDate).endOf("day").toDate(),
+              // $gte: dayjs(fromDate).startOf("day").utc().toDate(),
+              // $lte: dayjs(toDate).endOf("day").utc().toDate(),
             },
           }
         : {};

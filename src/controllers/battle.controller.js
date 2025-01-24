@@ -48,7 +48,7 @@ exports.createBattle = async (req, res) => {
       roomNo: { $exists: true },
     });
 
-    if (battleCreatedddd) {
+    if (battleCreatedddd?.isBattleRequestAccepted) {
       return errorHandler({
         res,
         statusCode: 400,
