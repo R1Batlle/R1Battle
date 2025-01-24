@@ -42,23 +42,11 @@ exports.createBattle = async (req, res) => {
         message: getMessage("M015"),
       });
     }
-    const battleCreatedddd = await Battle.findOne({
-      createdBy: _id,
-      status: "OPEN",
-      roomNo: { $exists: true },
-    });
-
-    if (battleCreatedddd?.isBattleRequestAccepted) {
-      return errorHandler({
-        res,
-        statusCode: 400,
-        message: getMessage("M036"),
-      });
-    }
 
     const checkPlayingBattle = await Battle.findOne({
       $or: [{ createdBy: _id }, { acceptedBy: _id }],
-      status: "PLAYING",
+      status: { $in: ["PLAYING", "OPEN"] },
+      isBattleRequestAccepted: true,
     });
 
     if (checkPlayingBattle?.acceptedBy?.toString() === _id?.toString()) {
@@ -973,7 +961,6 @@ exports.updateBattleResultByUser = async (req, res) => {
       battleDetails?.status !== "PLAYING" &&
       battleDetails?.status !== "OPEN"
     ) {
-     
       return errorHandler({
         res,
         statusCode: 400,
