@@ -6,6 +6,10 @@ const Notification = require("../models/notifications.model");
 const getMessage = require("../utils/message");
 const { errorHandler, successHandler } = require("../utils/responseHandler");
 const BattleCommission = require("../models/battleCommission.model");
+const {
+  changeDateTimeToNight,
+  changeDateTimeToNightAfter,
+} = require("../utils/dateHelper");
 
 // update social media links
 exports.updateSocialMediaLinks = async (req, res) => {
@@ -306,8 +310,8 @@ exports.adminDashboard = async (req, res) => {
       fromDate && toDate
         ? {
             createdAt: {
-              $gte: new Date(new Date(fromDate).setHours(0, 0, 0, 0)),
-              $lte: new Date(new Date(toDate).setHours(23, 59, 59, 999)),
+              $gte: changeDateTimeToNight(fromDate),
+              $lte: changeDateTimeToNightAfter(toDate),
             },
           }
         : {};

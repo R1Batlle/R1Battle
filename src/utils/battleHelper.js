@@ -104,7 +104,9 @@ const updateWinningAmountForWinner = async (data) => {
       );
 
       const battleEarningPercentage = settings?.battleEarningPercentage || 20; // Default to 20 if not found
-      const commisionAmount = data?.entryFee * (battleEarningPercentage / 100);
+      const commisionAmount = Math.round(
+        data?.entryFee * (battleEarningPercentage / 100)
+      );
 
       await BattleCommission.create({
         amount: commisionAmount,
