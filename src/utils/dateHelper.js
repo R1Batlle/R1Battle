@@ -16,4 +16,4 @@ const changeDateTimeToNightAfter = (date) => {
   return newDate;
 };
 
-export { changeDateTimeToNight, changeDateTimeToNightAfter };
+module.exports = { changeDateTimeToNight, changeDateTimeToNightAfter };
