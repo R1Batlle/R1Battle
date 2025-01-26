@@ -125,7 +125,7 @@ exports.updateBattleIFNoAcceptor = async () => {
     }).exec();
 
     if (deletedBattles?.length > 0) {
-      for (const battle of deletedBattles) {
+      for (const battle of deletedBattles) { 
         await updateWalletAndDeleteTransaction(
           battle?.createdBy,
           battle?.entryFee,
