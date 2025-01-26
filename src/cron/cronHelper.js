@@ -1,5 +1,8 @@
 const Battle = require("../models/battle.model");
-const { updateWinningAmountForWinner } = require("../utils/battleHelper");
+const {
+  updateWinningAmountForWinner,
+  updateWalletAndDeleteTransaction,
+} = require("../utils/battleHelper");
 const dayjs = require("dayjs");
 exports.updateBattleResult = async () => {
   try {
@@ -120,6 +123,22 @@ exports.updateBattleIFNoAcceptor = async () => {
       createdAt: { $lte: fiveMinutesAgo },
       acceptedBy: null,
     }).exec();
+
+    if (deletedBattles?.length > 0) {
+      for (const battle of deletedBattles) {
+        await updateWalletAndDeleteTransaction(
+          battle?.createdBy,
+          battle?.entryFee,
+          battle?._id
+        );
+
+        await updateWalletAndDeleteTransaction(
+          battle?.acceptedBy,
+          battle?.entryFee,
+          battle?._id
+        );
+      }
+    }
 
     if (deletedBattles.deletedCount > 0) {
       console.log("deleted", deletedBattles.deletedCount);
