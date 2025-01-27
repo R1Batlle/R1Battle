@@ -310,8 +310,8 @@ exports.adminDashboard = async (req, res) => {
       fromDate && toDate
         ? {
             createdAt: {
-              $gte: changeDateTimeToNight(fromDate),
-              $lte: changeDateTimeToNightAfter(toDate),
+              $gte: changeDateTimeToNight(new Date(fromDate)),
+              $lte: changeDateTimeToNightAfter(new Date(toDate)),
             },
           }
         : {};
