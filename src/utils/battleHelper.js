@@ -86,7 +86,7 @@ const updateWinningAmountForWinner = async (data) => {
         amount: data.winnerAmount,
         status: "approved",
         isBattleTransaction: true,
-        battleId: data.battleId,
+        battleId: data._id,
         isWonCash: true,
         closingBalance: userDetails?.balance?.totalWalletBalance,
       });
@@ -134,7 +134,7 @@ const updateWinningAmountForWinner = async (data) => {
           amount: referralAmount,
           status: "approved",
           isBattleTransaction: true,
-          battleId: data.battleId,
+          battleId: data._id,
           isReferral: true,
           closingBalance: referredUserDetails?.balance?.totalWalletBalance,
         });

@@ -527,7 +527,10 @@ exports.startGameByAcceptedUser = async (req, res) => {
       });
     }
 
-    const battleDetails = await Battle.findOne({ _id: req.params.battleId });
+    const battleDetails = await Battle.findOne({
+      _id: req.params.battleId,
+      status: "OPEN",
+    });
 
     if (!battleDetails) {
       return errorHandler({

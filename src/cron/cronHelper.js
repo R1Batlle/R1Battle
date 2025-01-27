@@ -55,7 +55,8 @@ exports.updateBattleResult = async () => {
 
 exports.updateBttleResultNotUpdatedByUser = async () => {
   try {
-    const thirtyMinutesAgo = dayjs().subtract(30, "minute").toDate();
+    const thirtyMinutesAgo = new Date();
+    thirtyMinutesAgo.setMinutes(thirtyMinutesAgo.getMinutes() - 45);
 
     const battles = await Battle.find({
       status: { $in: ["OPEN", "PLAYING"] },
@@ -117,7 +118,8 @@ exports.updateBttleResultNotUpdatedByUser = async () => {
 };
 exports.updateBattleIFNoAcceptor = async () => {
   try {
-    const fiveMinutesAgo = dayjs().subtract(5, "minute").toDate();
+    const fiveMinutesAgo = new Date();
+    fiveMinutesAgo.setMinutes(fiveMinutesAgo.getMinutes() - 5);
     const deletedBattles = await Battle.deleteMany({
       status: { $in: ["OPEN", "PLAYING"] },
       createdAt: { $lte: fiveMinutesAgo },
@@ -125,7 +127,7 @@ exports.updateBattleIFNoAcceptor = async () => {
     }).exec();
 
     if (deletedBattles?.length > 0) {
-      for (const battle of deletedBattles) { 
+      for (const battle of deletedBattles) {
         await updateWalletAndDeleteTransaction(
           battle?.createdBy,
           battle?.entryFee,
