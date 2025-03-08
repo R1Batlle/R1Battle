@@ -49,7 +49,9 @@ exports.generateOTP = async (req, res) => {
     };
 
     axios
-      .post("https://www.fast2sms.com/dev/bulkV2", smsData, options)
+      .post(
+        `http://bulk.powerstext.in/tokenapi-nontid.php?authentic-key=3637523162617474656c3130301741428597&senderid=ARHAMF&route=1&number=${mobileNo}&message=Dear Customer Your Login otp is {${otp}} BSI`
+      )
       .then((res) => {
         // console.log(res);
       })
